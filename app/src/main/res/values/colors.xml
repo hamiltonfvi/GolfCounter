@@ -5,4 +5,7 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorBackground">#f8bbd0</color>
     <color name="text_color">#000000</color>
+    <color name="colorBackground_popup">#fafafa</color>
+    <color name="text_color_button_reset">#e91e63</color>
+    <color name="text_color_button_results">#1a237e</color>
 </resources>

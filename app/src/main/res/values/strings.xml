@@ -10,6 +10,7 @@
     <string name="double_eagle">Double Eagle</string>
     <string name="eagle">Eagle</string>
     <string name="birdie">Birdie</string>
+    <string name="rules">Rules</string>
     <string name="par">Par</string>
     <string name="bogey">Bogey</string>
     <string name="double_bogey">Double Bogey</string>
@@ -18,5 +19,16 @@
     <string name="winner_team_b">Team B is the winner!!</string>
     <string name="content_description">Team Avatar</string>
     <string name="even">Both Teams are even!!</string>
+    <string name="close">Close</string>
     <string name="exceeded">Can\'t go any further than 20 points</string>
+    <string name="scoring_rules_title">Scoring Rules for Golf</string>
+    <string name="scoring_rules_paragraph">The goal is to play as few strokes per round as possible. The team with less points (shots) will be the winner</string>
+    <string name="minus_four">-4</string>
+    <string name="minus_three">-3</string>
+    <string name="minus_two">-2</string>
+    <string name="minus_one">-1</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="four">4</string>
 </resources>

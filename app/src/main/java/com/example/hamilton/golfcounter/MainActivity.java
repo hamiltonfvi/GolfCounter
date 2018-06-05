@@ -3,12 +3,22 @@ package com.example.hamilton.golfcounter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ImageView;
 import android.media.MediaPlayer;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.PopupWindow;
+import android.content.Context;
 
 public class MainActivity extends AppCompatActivity {
+    Button showPopupBtn, closePopupBtn;
+    PopupWindow PopupWindow;
+    RelativeLayout relativeLayout1;
     int scoreTeamA = 0;
     int scoreTeamB = 0;
 
@@ -16,6 +26,37 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        showPopupBtn = (Button) findViewById(R.id.rules_button);
+        relativeLayout1 = (RelativeLayout) findViewById(R.id.relativeLayout1);
+
+        showPopupBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //instantiate the popup.xml layout file
+                LayoutInflater layoutInflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View customView = layoutInflater.inflate(R.layout.custom_layout, null);
+
+                closePopupBtn = (Button) customView.findViewById(R.id.closePopupBtn);
+
+                //instantiate popup window
+                PopupWindow = new PopupWindow(customView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+
+                //add animation to the popup window
+                PopupWindow.setAnimationStyle(R.style.popup_window_animation_phone);
+
+                //display the popup window
+                PopupWindow.showAtLocation(relativeLayout1, Gravity.CENTER, 0, 0);
+
+                //close the popup window on button click
+                closePopupBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        PopupWindow.dismiss();
+                    }
+                });
+            }
+        });
     }
 
     /**
@@ -279,6 +320,14 @@ public class MainActivity extends AppCompatActivity {
         resetAvatarB.setImageResource(R.drawable.team_b);
         final MediaPlayer ring = MediaPlayer.create(this, R.raw.reset);
         ring.start();
+    }
+
+    /**
+     * Display a pop up windows with the scoring rules.
+     */
+
+    public void scoringRules(View view) {
+
     }
 
     /**

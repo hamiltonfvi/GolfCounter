@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorBackground"
+        android:id="@+id/relativeLayout1"
         tools:context=".MainActivity">
 
         <Button
@@ -20,6 +21,7 @@
             android:layout_alignParentBottom="true"
             android:layout_toLeftOf="@id/centerPoint"
             android:layout_toStartOf="@+id/centerPoint"
+            android:textColor="@color/text_color_button_reset"
             android:minHeight="@dimen/button_size"
             android:minWidth="@dimen/button_size"
             android:onClick="resetScore"
@@ -40,10 +42,23 @@
             android:layout_alignParentBottom="true"
             android:layout_toRightOf="@+id/centerPoint"
             android:layout_toEndOf="@+id/centerPoint"
+            android:textColor="@color/text_color_button_results"
             android:minHeight="@dimen/button_size"
             android:minWidth="@dimen/button_size"
             android:onClick="totalScoreTeam"
             android:text="@string/results" />
+
+        <Button
+            android:id="@+id/rules_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:minHeight="@dimen/button_size"
+            android:minWidth="@dimen/button_size"
+            android:onClick="scoringRules"
+            android:text="@string/rules" />
 
         <TextView
             android:id="@+id/team_a_name"
