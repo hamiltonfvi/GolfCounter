@@ -2,7 +2,6 @@ package com.example.hamilton.golfcounter;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,6 +14,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.content.Context;
+import android.content.res.Configuration;
 
 public class MainActivity extends AppCompatActivity {
     private static final String State_Score_Team_A = "scoreTeamA";
@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     public void onSaveInstanceState(Bundle savedInstanceState) {
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
+
         // Saved state score from saved instance
         savedInstanceState.putInt(State_Score_Team_A, mscoreTeamA);
         savedInstanceState.putInt(State_Score_Team_B, mscoreTeamB);
@@ -81,15 +82,32 @@ public class MainActivity extends AppCompatActivity {
 
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            // Always call the superclass so it can restore the view hierarchy
+            // Always call the superclass first so it can restore the view hierarchy
             super.onRestoreInstanceState(savedInstanceState);
 
             mscoreTeamA = savedInstanceState.getInt(State_Score_Team_A);
+
+            //Assign the tag to your variable and then display it
             TextView scoreViewA = (TextView) findViewById(R.id.team_a_score);
             scoreViewA.setText(String.valueOf(mscoreTeamA));
+
             mscoreTeamB = savedInstanceState.getInt(State_Score_Team_B);
+
+            //Assign the tag to your variable and then display it
             TextView scoreViewB = (TextView) findViewById(R.id.team_b_score);
             scoreViewB.setText(String.valueOf(mscoreTeamB));
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
         }
     }
 
