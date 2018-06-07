@@ -2,6 +2,7 @@ package com.example.hamilton.golfcounter;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,16 +17,26 @@ import android.widget.PopupWindow;
 import android.content.Context;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String State_Score_Team_A = "scoreTeamA";
+    private static final String State_Score_Team_B = "scoreTeamB";
     Button showPopupBtn, closePopupBtn;
     PopupWindow PopupWindow;
     RelativeLayout relativeLayout1;
-    int scoreTeamA = 0;
-    int scoreTeamB = 0;
+    private int mscoreTeamA;
+    private int mscoreTeamB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (savedInstanceState != null) {
+            // Restore value of members from saved state
+            mscoreTeamA = savedInstanceState.getInt(State_Score_Team_A);
+            mscoreTeamB = savedInstanceState.getInt(State_Score_Team_B);
+        } else {
+            // Probably initialize variable with default values for a new instance
+        }
 
         showPopupBtn = (Button) findViewById(R.id.rules_button);
         relativeLayout1 = (RelativeLayout) findViewById(R.id.relativeLayout1);
@@ -59,6 +70,29 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
+        // Saved state score from saved instance
+        savedInstanceState.putInt(State_Score_Team_A, mscoreTeamA);
+        savedInstanceState.putInt(State_Score_Team_B, mscoreTeamB);
+    }
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            // Always call the superclass so it can restore the view hierarchy
+            super.onRestoreInstanceState(savedInstanceState);
+
+            mscoreTeamA = savedInstanceState.getInt(State_Score_Team_A);
+            TextView scoreViewA = (TextView) findViewById(R.id.team_a_score);
+            scoreViewA.setText(String.valueOf(mscoreTeamA));
+            mscoreTeamB = savedInstanceState.getInt(State_Score_Team_B);
+            TextView scoreViewB = (TextView) findViewById(R.id.team_b_score);
+            scoreViewB.setText(String.valueOf(mscoreTeamB));
+        }
+    }
+
     /**
      * Displays the given score for Team A.
      */
@@ -71,18 +105,18 @@ public class MainActivity extends AppCompatActivity {
      * Decrease the score for team A by 4 points.
      */
     public void condorPointsA(View view) {
-        if (scoreTeamA <= (-20)) {
+        if (mscoreTeamA <= (-20)) {
             //Show an error message as a toast
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamA == (-19)) {
+        } else if (mscoreTeamA == (-19)) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamA == (-18)) {
+        } else if (mscoreTeamA == (-18)) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamA == (-17)) {
+        } else if (mscoreTeamA == (-17)) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
         } else {
-            scoreTeamA = scoreTeamA - 4;
-            displayForTeamA(scoreTeamA);
+            mscoreTeamA = mscoreTeamA - 4;
+            displayForTeamA(mscoreTeamA);
         }
     }
 
@@ -90,16 +124,16 @@ public class MainActivity extends AppCompatActivity {
      * Decrease the score for team A by 3 points.
      */
     public void doubleEaglePointsA(View view) {
-        if (scoreTeamA <= (-20)) {
+        if (mscoreTeamA <= (-20)) {
             //Show an error message as a toast
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamA == (-19)) {
+        } else if (mscoreTeamA == (-19)) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamA == (-18)) {
+        } else if (mscoreTeamA == (-18)) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
         } else {
-            scoreTeamA = scoreTeamA - 3;
-            displayForTeamA(scoreTeamA);
+            mscoreTeamA = mscoreTeamA - 3;
+            displayForTeamA(mscoreTeamA);
         }
     }
 
@@ -108,14 +142,14 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void eaglePointsA(View view) {
-        if (scoreTeamA <= (-20)) {
+        if (mscoreTeamA <= (-20)) {
             //Show an error message as a toast
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamA == (-19)) {
+        } else if (mscoreTeamA == (-19)) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
         } else {
-            scoreTeamA = scoreTeamA - 2;
-            displayForTeamA(scoreTeamA);
+            mscoreTeamA = mscoreTeamA - 2;
+            displayForTeamA(mscoreTeamA);
         }
     }
 
@@ -124,12 +158,12 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void birdiePointsA(View view) {
-        if (scoreTeamA <= (-20)) {
+        if (mscoreTeamA <= (-20)) {
             //Show an error message as a toast
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
         } else {
-            scoreTeamA = scoreTeamA - 1;
-            displayForTeamA(scoreTeamA);
+            mscoreTeamA = mscoreTeamA - 1;
+            displayForTeamA(mscoreTeamA);
         }
     }
 
@@ -138,12 +172,12 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void bogeyPointsA(View view) {
-        if (scoreTeamA >= 20) {
+        if (mscoreTeamA >= 20) {
             //Show an error message as a toast
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
         } else {
-            scoreTeamA = scoreTeamA + 1;
-            displayForTeamA(scoreTeamA);
+            mscoreTeamA = mscoreTeamA + 1;
+            displayForTeamA(mscoreTeamA);
         }
     }
 
@@ -152,14 +186,14 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void doubleBogeyPointsA(View view) {
-        if (scoreTeamA >= 20) {
+        if (mscoreTeamA >= 20) {
             //Show an error message as a toast
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamA == 19) {
+        } else if (mscoreTeamA == 19) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
         } else {
-            scoreTeamA = scoreTeamA + 2;
-            displayForTeamA(scoreTeamA);
+            mscoreTeamA = mscoreTeamA + 2;
+            displayForTeamA(mscoreTeamA);
         }
     }
 
@@ -168,16 +202,16 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void tripleBogeyPointsA(View view) {
-        if (scoreTeamA >= 20) {
+        if (mscoreTeamA >= 20) {
             //Show an error message as a toast
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamA == 19) {
+        } else if (mscoreTeamA == 19) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamA == 18) {
+        } else if (mscoreTeamA == 18) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
         } else {
-            scoreTeamA = scoreTeamA + 3;
-            displayForTeamA(scoreTeamA);
+            mscoreTeamA = mscoreTeamA + 3;
+            displayForTeamA(mscoreTeamA);
         }
     }
 
@@ -194,18 +228,18 @@ public class MainActivity extends AppCompatActivity {
      * Decrease the score for team B by 4 points.
      */
     public void condorPointsB(View view) {
-        if (scoreTeamB <= (-20)) {
+        if (mscoreTeamB <= (-20)) {
             //Show an error message as a toast
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamB == 19) {
+        } else if (mscoreTeamB == 19) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamB == 18) {
+        } else if (mscoreTeamB == 18) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamB == 17) {
+        } else if (mscoreTeamB == 17) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
         } else {
-            scoreTeamB = scoreTeamB - 4;
-            displayForTeamB(scoreTeamB);
+            mscoreTeamB = mscoreTeamB - 4;
+            displayForTeamB(mscoreTeamB);
         }
     }
 
@@ -214,16 +248,16 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void doubleEaglePointsB(View view) {
-        if (scoreTeamB <= (-20)) {
+        if (mscoreTeamB <= (-20)) {
             //Show an error message as a toast
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamB == (-19)) {
+        } else if (mscoreTeamB == (-19)) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamB == (-18)) {
+        } else if (mscoreTeamB == (-18)) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
         } else {
-            scoreTeamB = scoreTeamB - 3;
-            displayForTeamB(scoreTeamB);
+            mscoreTeamB = mscoreTeamB - 3;
+            displayForTeamB(mscoreTeamB);
         }
     }
 
@@ -232,14 +266,14 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void eaglePointsB(View view) {
-        if (scoreTeamB <= (-20)) {
+        if (mscoreTeamB <= (-20)) {
             //Show an error message as a toast
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamB == (-19)) {
+        } else if (mscoreTeamB == (-19)) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
         } else {
-            scoreTeamB = scoreTeamB - 2;
-            displayForTeamB(scoreTeamB);
+            mscoreTeamB = mscoreTeamB - 2;
+            displayForTeamB(mscoreTeamB);
         }
     }
 
@@ -248,12 +282,12 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void birdiePointsB(View view) {
-        if (scoreTeamB <= (-20)) {
+        if (mscoreTeamB <= (-20)) {
             //Show an error message as a toast
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
         } else {
-            scoreTeamB = scoreTeamB - 1;
-            displayForTeamB(scoreTeamB);
+            mscoreTeamB = mscoreTeamB - 1;
+            displayForTeamB(mscoreTeamB);
         }
     }
 
@@ -262,12 +296,12 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void bogeyPointsB(View view) {
-        if (scoreTeamB >= 20) {
+        if (mscoreTeamB >= 20) {
             //Show an error message as a toast
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
         } else {
-            scoreTeamB = scoreTeamB + 1;
-            displayForTeamB(scoreTeamB);
+            mscoreTeamB = mscoreTeamB + 1;
+            displayForTeamB(mscoreTeamB);
         }
     }
 
@@ -276,14 +310,14 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void doubleBogeyPointsB(View view) {
-        if (scoreTeamB >= 20) {
+        if (mscoreTeamB >= 20) {
             //Show an error message as a toast
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamB == 19) {
+        } else if (mscoreTeamB == 19) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
         } else {
-            scoreTeamB = scoreTeamB + 2;
-            displayForTeamB(scoreTeamB);
+            mscoreTeamB = mscoreTeamB + 2;
+            displayForTeamB(mscoreTeamB);
         }
     }
 
@@ -292,16 +326,16 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void tripleBogeyPointsB(View view) {
-        if (scoreTeamB >= 20) {
+        if (mscoreTeamB >= 20) {
             //Show an error message as a toast
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamB == 19) {
+        } else if (mscoreTeamB == 19) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
-        } else if (scoreTeamB == 18) {
+        } else if (mscoreTeamB == 18) {
             Toast.makeText(this, getString(R.string.exceeded), Toast.LENGTH_LONG).show();
         } else {
-            scoreTeamB = scoreTeamB + 3;
-            displayForTeamB(scoreTeamB);
+            mscoreTeamB = mscoreTeamB + 3;
+            displayForTeamB(mscoreTeamB);
         }
     }
 
@@ -310,10 +344,10 @@ public class MainActivity extends AppCompatActivity {
      */
 
     public void resetScore(View view) {
-        scoreTeamA = 0;
-        scoreTeamB = 0;
-        displayForTeamA(scoreTeamA);
-        displayForTeamB(scoreTeamB);
+        mscoreTeamA = 0;
+        mscoreTeamB = 0;
+        displayForTeamA(mscoreTeamA);
+        displayForTeamB(mscoreTeamB);
         ImageView resetAvatarA = (ImageView) findViewById(R.id.team_a_avatar);
         resetAvatarA.setImageResource(R.drawable.team_a);
         ImageView resetAvatarB = (ImageView) findViewById(R.id.team_b_avatar);
@@ -334,7 +368,7 @@ public class MainActivity extends AppCompatActivity {
      * Review the score.
      */
     public void totalScoreTeam(View view) {
-        if (scoreTeamA < scoreTeamB) {
+        if (mscoreTeamA < mscoreTeamB) {
             Toast.makeText(this, getString(R.string.winner_team_a), Toast.LENGTH_LONG).show();
             ImageView winnerTeam = (ImageView) findViewById(R.id.team_a_avatar);
             winnerTeam.setImageResource(R.drawable.winner);
@@ -342,7 +376,7 @@ public class MainActivity extends AppCompatActivity {
             loserTeam.setImageResource(R.drawable.loser);
             final MediaPlayer ring = MediaPlayer.create(this, R.raw.tada);
             ring.start();
-        } else if (scoreTeamA == scoreTeamB) {
+        } else if (mscoreTeamA == mscoreTeamB) {
             Toast.makeText(this, getString(R.string.even), Toast.LENGTH_LONG).show();
             final MediaPlayer ring = MediaPlayer.create(this, R.raw.even);
             ring.start();
